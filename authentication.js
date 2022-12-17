@@ -169,10 +169,10 @@ app.get('/users', (req, res) => {
 //update
 app.put('/:id/user', (req, res) => {
 	if (!!req.params.id && !!req.body.name && !!req.body.email && !!req.body.phone_number) {
-        var _id = req.params.id;
+		var _id = req.params.id;
 		var email = req.body.email;
-        var name = req.body.name;
-        var phone_number = req.body.phone_number;
+		var name = req.body.name;
+		var phone_number = req.body.phone_number;
 		new Promise(function(resolve, reject) {
 			//update users with respect to inputs
 			mysqlConnection.query(`update users set name = '${name}',email = '${email}',phone_number = '${phone_number}' where id = ${_id}`, function(err, complete_status) {
@@ -189,9 +189,15 @@ app.put('/:id/user', (req, res) => {
 					console.log(err);
 					return;
 				} else {
-					res.status(200).json({
-						update_user: data[0]
-					})
+					if (data.length == 0) {
+						res.status(200).json({
+							status: "Id is not exist!!"
+						})
+					} else {
+						res.status(200).json({
+							update_user: data[0]
+						})
+					}
 				}
 			})
 		})
