@@ -6,7 +6,7 @@ CRUD operation for users
 var mysqlConnection = mysql.createConnection({
 	host: "localhost",
 	user: "root,
-	password: :"root",
+	password :"root",
 	database: "authentication"
 });
 
@@ -18,7 +18,9 @@ app.listen(8672, () => {
 
 //total variables
 
-process.env.port=8672
-process.env.user='root'
-process.env.password='root'
+1)process.env.port=8672
+
+2)process.env.user='root'
+
+3)process.env.password='root'
 
