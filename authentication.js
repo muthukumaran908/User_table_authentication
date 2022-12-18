@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+//emailvalidation for correct mail_id
+var validator = require("email-validator");
+;
 // Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({
 	"limit": '50mb',
@@ -26,6 +29,10 @@ app.post('/signup', (req, res) => {
 		var name = req.body.name;
 		var email = req.body.email;
 		var password = req.body.password;
+		//emailvalidation for correct mail_id
+		var valid_mail=validator.validate(email)
+		if(valid_mail==true){
+		
 		new Promise(function(resolve, reject) {
 			// fetch all email id for repeated email validation
 			mysqlConnection.query(`select email from users`, function(err, email_validation) {
@@ -91,6 +98,13 @@ app.post('/signup', (req, res) => {
 					})
 			}
 		})
+	}else{
+		res.status(200).json({
+			status: 0,
+			msg: "Not a valid mail_id"
+		});
+
+	}
 	} else {
 		//if input field are missing
 		res.status(200).json({

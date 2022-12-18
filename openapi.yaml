@@ -1,0 +1,236 @@
+openapi: 3.0.0
+info:
+  title: User Management Api
+  description: User info api
+  version: 1.0.0
+servers:
+  - url: http://localhost:8672
+paths:
+  /users:
+    get:
+      description: fetch users records
+      parameters:
+        - name: name
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/result_records"
+        "500":
+          description: Unable to process the request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_messsage"
+  /signup:
+ 
+    post:
+      description: User signup
+      parameters:
+        - name: name
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: email_id
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            format: email
+        - name: password
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/result_records"
+        "500":
+          description: Unable to process the request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_messsage"
+  /login:
+    
+    post:
+      description: User login
+      parameters:
+        - name: email_id
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            format: email
+        - name: password
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+        
+
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/result_records_for_login"
+        "500":
+          description: Unable to process the request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_messsage"
+  /:id/user:
+    
+    put:
+      description: update user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          explode: true
+          schema:
+            type: number
+        - name: email_id
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            format: email
+        - name: name
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: phone_number
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/result_records_update"
+        "500":
+          description: Unable to process the request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_messsage"    
+components:
+  schemas:
+    result_records:
+      type: object
+      properties:
+        success:
+          type: string
+          enum:
+            - "True"
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/result_records_users"
+    error_messsage:
+      type: object
+      properties:
+        status_code:
+          type: string
+          enum:
+            - "500"
+        message:
+          type: string
+          enum:
+            - Internal server error
+    result_records_update:
+      type: object
+      properties:
+        update_user:
+          type: array
+          items:
+            $ref: "#/components/schemas/result_records_users"
+    error:
+      type: object
+      properties:
+        status_code:
+          type: string
+          enum:
+            - "500"
+        message:
+          type: string
+          enum:
+            - Internal server error
+    result_records_for_login:
+      type: object
+      properties:
+        success:
+          type: string
+          enum:
+            - "True"
+        Token:
+          type: string
+    error_messsag:
+      type: object
+      properties:
+        status_code:
+          type: string
+          enum:
+            - "500"
+        message:
+          type: string
+          enum:
+            - Internal server error
+    result_records_users:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone_number:
+          type: integer
+        password:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
