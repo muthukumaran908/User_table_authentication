@@ -187,6 +187,7 @@ app.put('/:id/user', (req, res) => {
 		var email = req.body.email;
 		var name = req.body.name;
 		var phone_number = req.body.phone_number;
+		//emailvalidation for correct mail_id
 		var valid_mail=validator.validate(email)
 		if(valid_mail==true){
 		new Promise(function(resolve, reject) {
