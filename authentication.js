@@ -187,6 +187,8 @@ app.put('/:id/user', (req, res) => {
 		var email = req.body.email;
 		var name = req.body.name;
 		var phone_number = req.body.phone_number;
+		var valid_mail=validator.validate(email)
+		if(valid_mail==true){
 		new Promise(function(resolve, reject) {
 			//update users with respect to inputs
 			mysqlConnection.query(`update users set name = '${name}',email = '${email}',phone_number = '${phone_number}' where id = ${_id}`, function(err, complete_status) {
@@ -214,7 +216,14 @@ app.put('/:id/user', (req, res) => {
 					}
 				}
 			})
+		
 		})
+	}else{
+		res.status(200).json({
+			status: 0,
+			msg: "Not a valid mail_id"
+		});
+	}
 	} else {
 		//if input field are missing
 		res.status(200).json({
